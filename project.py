@@ -213,6 +213,8 @@ print("F1 Score:", round(f1_score(y_test, log_pred, average="weighted", zero_div
 print("Log Loss:", round(log_loss(y_test, log_prob, labels=log_model.steps[-1][1].classes_), 4))
 print(classification_report(y_test, log_pred, zero_division=0))
 log_accuracy = accuracy_score(y_test, log_pred)
+log_precision = precision_score(y_test, log_pred, average="weighted", zero_division=0)
+log_recall = recall_score(y_test, log_pred, average="weighted", zero_division=0)
 log_f1 = f1_score(y_test, log_pred, average="weighted", zero_division=0)
 
 # 5.2 Decision Tree
@@ -234,6 +236,8 @@ print("F1 Score:", round(f1_score(y_test, tree_pred, average="weighted", zero_di
 print("Log Loss:", round(log_loss(y_test, tree_prob, labels=tree_model.steps[-1][1].classes_), 4))
 print(classification_report(y_test, tree_pred, zero_division=0))
 tree_accuracy = accuracy_score(y_test, tree_pred)
+tree_precision = precision_score(y_test, tree_pred, average="weighted", zero_division=0)
+tree_recall = recall_score(y_test, tree_pred, average="weighted", zero_division=0)
 tree_f1 = f1_score(y_test, tree_pred, average="weighted", zero_division=0)
 
 # 5.3 Random Forest
@@ -255,6 +259,8 @@ print("F1 Score:", round(f1_score(y_test, forest_pred, average="weighted", zero_
 print("Log Loss:", round(log_loss(y_test, forest_prob, labels=forest_model.steps[-1][1].classes_), 4))
 print(classification_report(y_test, forest_pred, zero_division=0))
 forest_accuracy = accuracy_score(y_test, forest_pred)
+forest_precision = precision_score(y_test, forest_pred, average="weighted", zero_division=0)
+forest_recall = recall_score(y_test, forest_pred, average="weighted", zero_division=0)
 forest_f1 = f1_score(y_test, forest_pred, average="weighted", zero_division=0)
 
 # 5.4 Gradient Boosting
@@ -276,6 +282,8 @@ print("F1 Score:", round(f1_score(y_test, boost_pred, average="weighted", zero_d
 print("Log Loss:", round(log_loss(y_test, boost_prob, labels=boost_model.steps[-1][1].classes_), 4))
 print(classification_report(y_test, boost_pred, zero_division=0))
 boost_accuracy = accuracy_score(y_test, boost_pred)
+boost_precision = precision_score(y_test, boost_pred, average="weighted", zero_division=0)
+boost_recall = recall_score(y_test, boost_pred, average="weighted", zero_division=0)
 boost_f1 = f1_score(y_test, boost_pred, average="weighted", zero_division=0)
 
 # 5.5 Support Vector Machine (SVM)
@@ -301,6 +309,8 @@ print("F1 Score:", round(f1_score(y_test, svm_pred, average="weighted", zero_div
 print("Log Loss:", round(log_loss(y_test, svm_prob, labels=svm_model.steps[-1][1].classes_), 4))
 print(classification_report(y_test, svm_pred, zero_division=0))
 svm_accuracy = accuracy_score(y_test, svm_pred)
+svm_precision = precision_score(y_test, svm_pred, average="weighted", zero_division=0)
+svm_recall = recall_score(y_test, svm_pred, average="weighted", zero_division=0)
 svm_f1 = f1_score(y_test, svm_pred, average="weighted", zero_division=0)
 
 results = [
@@ -313,17 +323,32 @@ results = [
 # ------------------------------------------------------------
 # 6. COMPARE CLASSIFIERS
 # ------------------------------------------------------------
-results_df = pd.DataFrame(results)
-print("\n========== MODEL COMPARISON ==========")
+results_df = pd.DataFrame([
+    {"Model": "Logistic Regression", "Accuracy": log_accuracy, "Precision": log_precision,
+     "Recall": log_recall, "F1 Score": log_f1},
+    {"Model": "Decision Tree", "Accuracy": tree_accuracy, "Precision": tree_precision,
+     "Recall": tree_recall, "F1 Score": tree_f1},
+    {"Model": "Random Forest", "Accuracy": forest_accuracy, "Precision": forest_precision,
+     "Recall": forest_recall, "F1 Score": forest_f1},
+    {"Model": "Gradient Boosting", "Accuracy": boost_accuracy, "Precision": boost_precision,
+     "Recall": boost_recall, "F1 Score": boost_f1},
+    {"Model": "SVM", "Accuracy": svm_accuracy, "Precision": svm_precision,
+     "Recall": svm_recall, "F1 Score": svm_f1}
+])
+
+print("\\n========== MODEL COMPARISON ==========")
 print(results_df.round(4).to_string(index=False))
 results_df.to_csv("model_comparison.csv", index=False)
 
-plt.figure(figsize=(9, 5))
-plt.bar(results_df["Model"], results_df["Accuracy"])
-plt.ylim(0, 1)
-plt.ylabel("Accuracy")
+results_df.set_index("Model")[
+    ["Accuracy", "Precision", "Recall", "F1 Score"]
+].plot(kind="bar", figsize=(12, 6), ylim=(0, 1))
+
 plt.title("Comparison of Five Classifiers")
+plt.ylabel("Score")
+plt.xlabel("Model")
 plt.xticks(rotation=15, ha="right")
+plt.legend(loc="best")
 plt.tight_layout()
 plt.savefig("model_comparison.png", dpi=200, bbox_inches="tight")
 plt.show()
