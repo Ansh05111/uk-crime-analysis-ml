@@ -1,170 +1,69 @@
-# UK Crime Analysis and Machine Learning
+# UK Police Crime Data Analysis
 
-A Python-based machine learning project that explores UK police street-level crime data through exploratory data analysis, classification algorithms, and geographic clustering.
+This project analyzes City of London street-level crime records for August 2026 and compares five machine-learning classifiers for predicting the recorded crime type.
 
-## About the Project
+## Models Used
 
-This project analyzes crime records to understand crime type distributions and geographic patterns. It implements four supervised machine learning classifiers and K-Means clustering, then evaluates the classification models using standard performance metrics.
+1. Logistic Regression
+2. Decision Tree
+3. Random Forest
+4. Gradient Boosting
+5. Support Vector Machine (SVM)
 
-## Objectives
-
-- Explore crime type distributions and geographic patterns.
-- Clean and preprocess crime data for machine learning.
-- Train and evaluate multiple classification algorithms.
-- Compare models using Accuracy, Precision, Recall, and F1 Score.
-- Identify geographic clusters using K-Means clustering.
-
-## Algorithms Implemented
-
-### Classification Models
-
-1. **Logistic Regression** — a baseline classification algorithm.
-2. **Decision Tree** — classifies records using decision rules.
-3. **Random Forest** — combines multiple decision trees.
-4. **Support Vector Machine (SVM)** — classifies data using decision boundaries.
-
-### Clustering Algorithm
-
-5. **K-Means Clustering** — groups crime records based on geographic coordinates.
+Each model has its own training and testing split. The script reports Accuracy, Precision, Recall, F1 Score, Log Loss, and a classification report for each model. It then compares model Accuracy in a chart.
 
 ## Dataset
 
-**Source:** UK Police street-level crime data.
+Place the following CSV file in the same folder as the Python script:
 
-The dataset includes fields such as:
+`2026-08-city-of-london-street.csv`
 
-- Crime ID
-- Month
-- Longitude and Latitude
-- Location
-- LSOA area name
-- Crime type
-- Last outcome category
+The script expects columns such as `Crime type`, `Longitude`, and `Latitude`.
 
-Data cleaning removes records without valid geographic coordinates or crime types. Rare crime categories may be grouped to support classification.
+Data cleaning includes:
+- Handling missing values in required columns.
+- Converting longitude and latitude to numeric values.
+- Handling duplicate Crime IDs.
+- Checking broad UK coordinate limits.
+- Combining rare crime types into `Other crime`.
 
-## Exploratory Data Analysis
+## Requirements
 
-The project includes three main visualizations:
+- Python 3.9 or later
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- scikit-learn
 
-- **Crime Type Distribution:** displays the frequency of different crime categories.
-- **Crime by Area:** compares crime types across selected areas.
-- **Geographic Distribution:** plots crime locations using longitude and latitude.
-
-## Model Evaluation Metrics
-
-The classification models are evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- Weighted F1 Score
-- Log Loss
-- Classification Report
-
-Each classification model is trained and evaluated in its own section. A final comparison table and bar chart compare the four classifiers. Confusion matrices are not included in the current implementation.
-
-## Results
-
-The following results were obtained during the current run:
-
-| Model | Accuracy | Weighted F1 Score |
-|---|---:|---:|
-| Logistic Regression | 12.41% | 0.1404 |
-| Decision Tree | 20.00% | 0.1993 |
-| Random Forest | 22.07% | 0.2279 |
-| Support Vector Machine | 26.21% | 0.1513 |
-
-**Best classifier by weighted F1 Score:** Random Forest, with a score of **0.2279**.
-
-SVM achieved the highest accuracy at 26.21%, while Random Forest achieved the highest weighted F1 Score. Overall classification performance was limited, indicating that the selected location-based features alone may not adequately distinguish all crime categories.
-
-### K-Means Clustering Results
-
-- Tested cluster counts: K = 2, 3, 4, 5.
-- Selected K: 2.
-- Silhouette Score for K = 2: 0.443.
-
-The Elbow Plot displays inertia for each tested K value. The Silhouette Score Plot displays valid scores for cluster configurations satisfying the minimum cluster-size condition.
-
-## Technologies Used
-
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- Spyder / IPython
-
-## Repository
-
-GitHub: [Ansh05111/uk-crime-analysis-ml](https://github.com/Ansh05111/uk-crime-analysis-ml)
-
-## Installation and Usage
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/Ansh05111/uk-crime-analysis-ml.git
-```
-
-### 2. Open the project directory
-
-```bash
-cd uk-crime-analysis-ml
-```
-
-### 3. Install dependencies
+Install the required libraries using:
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn
 ```
 
-### 4. Add the dataset
+## How to Run
 
-Place the required UK Police crime CSV file in the project directory. Ensure its filename matches the filename used in `project.py`.
-
-### 5. Run the project
+1. Keep the Python script and dataset CSV in the same folder.
+2. Open a terminal in that folder.
+3. Run the script:
 
 ```bash
-python project.py
+python crime_project_without_section7.py
 ```
 
-The script can also be executed using Spyder or another Python IDE.
+If you have renamed the Python file, replace the filename in the command with your actual filename.
 
-## Generated Outputs
+## Output Files
 
-Depending on successful execution, the project generates:
+After running the script, the following files are generated:
 
-- Crime distribution and geographic plots
-- Individual classification evaluation reports
-- K-Means geographic cluster visualization
-- K-Means Elbow Plot
-- K-Means Silhouette Score Plot
-- `model_comparison.csv`
-- `crime_data_with_clusters.csv`
-- `cluster_profile.csv`
+- `cleaned_crime_data.csv` — the cleaned dataset.
+- `model_comparison.csv` — comparison of Accuracy and F1 Score for the five models.
+- `model_comparison.png` — bar chart comparing model Accuracy.
 
-## Limitations
+## Notes
 
-- The dataset covers a limited time period and geographic region.
-- Classification uses a limited set of input features.
-- Some crime categories have relatively few records.
-- Model performance is measured on a held-out test split and should not be interpreted as reliable crime forecasting.
-
-## Future Improvements
-
-- Include additional informative features.
-- Explore methods for handling imbalanced classes.
-- Evaluate more classification algorithms.
-- Test models on crime data from additional months and regions.
-- Experiment with alternative clustering configurations.
-
-## Disclaimer
-
-This project is intended for educational and academic purposes. Its outputs should not be used as the sole basis for real-world policing decisions.
-
----
-
-**Developed as a machine learning and exploratory data analysis project.**
+- This is a machine-learning classification project using the available dataset features, mainly location-related columns.
+- Each model uses a separate train-test split, so their scores are not a strict like-for-like comparison on identical test records.
+- Results describe performance on this dataset and should not be treated as proof that crime can be predicted or prevented in real-world situations.
