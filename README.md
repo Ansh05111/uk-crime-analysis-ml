@@ -1,6 +1,6 @@
 # UK Police Crime Data Analysis
 
-This project analyzes City of London street-level crime records for August 2026 and compares five machine-learning classifiers for predicting the recorded crime type.
+This project analyzes City of London street-level crime records for August 2026 and compares five supervised machine learning classifiers for predicting the recorded crime type.
 
 ## Models Used
 
@@ -10,7 +10,20 @@ This project analyzes City of London street-level crime records for August 2026 
 4. Gradient Boosting
 5. Support Vector Machine (SVM)
 
-Each model has its own training and testing split. The script reports Accuracy, Precision, Recall, F1 Score, Log Loss, and a classification report for each model. It then compares model Accuracy in a chart.
+Each model has its own train-test split. The script reports Accuracy, Precision, Recall, F1 Score, Log Loss, and a classification report for each model.
+
+## Model Comparison
+
+The comparison graph displays four evaluation metrics for all five classifiers:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+
+The metrics are also saved in `model_comparison.csv`, and the graph is saved as `model_comparison.png`.
+
+**Note:** Each classifier uses a separate test split, so the scores are useful for an initial comparison but are not a strict head-to-head comparison on identical test records.
 
 ## Dataset
 
@@ -18,7 +31,7 @@ Place the following CSV file in the same folder as the Python script:
 
 `2026-08-city-of-london-street.csv`
 
-The script expects columns such as `Crime type`, `Longitude`, and `Latitude`.
+The dataset should contain columns such as `Crime type`, `Longitude`, and `Latitude`.
 
 Data cleaning includes:
 - Handling missing values in required columns.
@@ -36,7 +49,7 @@ Data cleaning includes:
 - seaborn
 - scikit-learn
 
-Install the required libraries using:
+Install the required libraries:
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn
@@ -46,24 +59,22 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 
 1. Keep the Python script and dataset CSV in the same folder.
 2. Open a terminal in that folder.
-3. Run the script:
+3. Run:
 
 ```bash
-python crime_project_without_section7.py
+python crime_project_all_metrics_comparison.py
 ```
 
-If you have renamed the Python file, replace the filename in the command with your actual filename.
+If you rename the Python file, use its actual name in the command.
 
 ## Output Files
 
-After running the script, the following files are generated:
-
-- `cleaned_crime_data.csv` — the cleaned dataset.
-- `model_comparison.csv` — comparison of Accuracy and F1 Score for the five models.
-- `model_comparison.png` — bar chart comparing model Accuracy.
+- `cleaned_crime_data.csv` — cleaned dataset.
+- `model_comparison.csv` — Accuracy, Precision, Recall, and F1 Score for the five classifiers.
+- `model_comparison.png` — comparison chart for all four metrics.
 
 ## Notes
 
-- This is a machine-learning classification project using the available dataset features, mainly location-related columns.
-- Each model uses a separate train-test split, so their scores are not a strict like-for-like comparison on identical test records.
+- The available features are mainly location-related, so they may not be sufficient to classify crime type accurately.
+- The models are evaluated on separate train-test splits.
 - Results describe performance on this dataset and should not be treated as proof that crime can be predicted or prevented in real-world situations.
